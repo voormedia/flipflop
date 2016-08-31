@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency("activesupport", ">= 4.0")
 if ENV["CONTINUOUS_INTEGRATION"]
-  s.files         = `git ls-files`.split("\n").map { |f| f.sub(".scss", ".css") }
+  s.files         = `git ls-files`.split("\n") + ['app/assets/stylesheets/flipflop.css']
 else
   s.add_dependency("bootstrap", "= 4.0.0.alpha3")
   s.files         = `git ls-files`.split("\n")
