@@ -1,6 +1,8 @@
 module Flipflop
   class Engine < ::Rails::Engine
     attr_accessor :rake_task_executing
+    class_attribute :config_file
+    self.config_file = "config/features.rb"
 
     isolate_namespace Flipflop
 
@@ -14,7 +16,7 @@ module Flipflop
     end
 
     initializer "flipflop.features_path" do |app|
-      app.paths.add("config/features.rb")
+      app.paths.add(config_file)
     end
 
     initializer "flipflop.features_reloader" do |app|
@@ -48,7 +50,7 @@ module Flipflop
     private
 
     def feature_reloader(app)
-      features = app.paths["config/features.rb"].existent
+      features = app.paths[config_file].existent
       ActiveSupport::FileUpdateChecker.new(features) do
         features.each { |path| load(path) }
       end
