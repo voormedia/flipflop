@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
 if ENV["CONTINUOUS_INTEGRATION"]
   s.files         = `git ls-files`.split("\n").map { |f| f.sub(".scss", ".css") }
 else
-  s.add_dependency("bootstrap", "= 4.0.0.alpha3")
   s.files         = `git ls-files`.split("\n")
 end
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
