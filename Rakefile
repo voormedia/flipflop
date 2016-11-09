@@ -16,9 +16,10 @@ end
 task default: :test
 
 namespace :assets do
-  stylesheets_path = "app/assets/stylesheets"
+  stylesheets_source_path = "src/stylesheets"
+  stylesheets_dest_path = "app/assets/stylesheets"
   stylesheet_file = "flipflop.css"
-  stylesheet_path = stylesheets_path + "/" + stylesheet_file
+  stylesheet_path = stylesheets_dest_path + "/" + stylesheet_file
 
   task :compile => :clean do
     require "bundler/setup"
@@ -27,9 +28,10 @@ namespace :assets do
     require "bootstrap"
 
     environment = Sprockets::Environment.new
-    environment.append_path stylesheets_path
+    environment.append_path stylesheets_source_path
     environment.append_path Bootstrap.stylesheets_path
     environment.css_compressor = :scss
+    FileUtils.mkdir_p stylesheets_dest_path
     File.write(stylesheet_path, environment[stylesheet_file])
   end
 
