@@ -15,7 +15,15 @@ module Flipflop
     private
 
     def enable?
-      params[:commit].to_s == "1"
+      if Rails::VERSION::MAJOR == 4
+        if Rails::VERSION::MINOR == 1
+          ActiveRecord::ConnectionAdapters::Column.value_to_boolean(params[:commit])
+        else
+          ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:commit])
+        end
+      else
+        ActiveModel::Type::Boolean.new.cast(params[:commit])
+      end
     end
 
     def feature_key
