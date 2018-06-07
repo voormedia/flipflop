@@ -15,7 +15,7 @@ module Flipflop
         super(**options)
       end
 
-      def switchable?
+      def switchable?(feature)
         true
       end
 
