@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.license  = "MIT"
 
   s.add_dependency("activesupport", ">= 4.0")
+  s.add_dependency('terminal-table', '>= 1.8')
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
