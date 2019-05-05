@@ -8,6 +8,7 @@ application functionality at run-time. It is originally based on
 * simple configuration
 * ease of use for developers
 * an improved dashboard
+* manage features via console (using rake tasks)
 * thread safety
 * better database performance due to per-request caching, enabled by default
 * more strategies (Sequel, Redis, query strings, sessions, custom code)
@@ -32,9 +33,17 @@ Flipflop has a dashboard interface that's easy to understand and use.
 
 [<img src="https://raw.githubusercontent.com/voormedia/flipflop/screenshots/dashboard.png" alt="Dashboard">](https://raw.githubusercontent.com/voormedia/flipflop/screenshots/dashboard.png)
 
+If you prefer, you can use the included rake tasks to enable or disable features.
+
+```
+rake flipflop:features                    # Shows features table
+rake flipflop:turn_on[feature,strategy]   # Enables a feature with the specified strategy
+rake flipflop:turn_off[feature,strategy]  # Disables a feature with the specified strategy
+```
+
 ## Rails requirements
 
-This gem requires Rails 4, 5 or 6. Using an ORM layer is entirely optional. 
+This gem requires Rails 4, 5 or 6. Using an ORM layer is entirely optional.
 
 ## Installation
 
