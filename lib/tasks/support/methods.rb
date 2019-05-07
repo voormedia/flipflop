@@ -34,7 +34,12 @@ module Flipflop
       def switch_feature!(feature_name, strategy_name, value)
         feature = find_feature_by_name(feature_name)
         strategy = find_strategy_by_name(strategy_name)
-        strategy.switch!(feature.key, value)
+
+        if strategy.switchable?
+          strategy.switch!(feature.key, value)
+        else
+          raise "The :#{strategy_name} strategy doesn't support switching."
+        end
       end
     end
   end
