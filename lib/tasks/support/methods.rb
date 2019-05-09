@@ -4,7 +4,7 @@ module Flipflop
   module Rake
     module SupportMethods
       def status_label(enabled)
-        enabled ? 'ON' : 'OFF'
+        enabled.nil? ? '' : (enabled ? 'ON' : 'OFF')
       end
 
       def find_feature_by_name(name)
