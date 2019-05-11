@@ -26,18 +26,6 @@ namespace :flipflop do
 
   desc 'Shows features table'
   task features: :environment do
-    # Build features table...
-    rows = m.features.inject([]) do |array, feature|
-      row = [feature.name, feature.description]
-      m.strategies.each do |strategy|
-        row << m.status_label(strategy.enabled?(feature.key))
-      end
-      array << row
-    end
-
-    table = m.table_class.new headings: m.table_header, rows: rows
-
-    # Print table
-    puts table
+    puts m.build_features_table
   end
 end

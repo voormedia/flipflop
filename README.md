@@ -39,6 +39,7 @@ If you prefer, you can use the included rake tasks to enable or disable features
 rake flipflop:features                    # Shows features table
 rake flipflop:turn_on[feature,strategy]   # Enables a feature with the specified strategy
 rake flipflop:turn_off[feature,strategy]  # Disables a feature with the specified strategy
+rake flipflop:clear[feature,strategy]     # Clears a feature with the specified strategy
 ```
 
 ## Rails requirements
