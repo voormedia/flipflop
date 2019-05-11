@@ -41,6 +41,13 @@ module Flipflop
           raise "The :#{strategy_name} strategy doesn't support switching."
         end
       end
+
+      def clear_feature!(feature_name, strategy_name)
+        feature = find_feature_by_name(feature_name)
+        strategy = find_strategy_by_name(strategy_name)
+
+        strategy.clear!(feature.key)
+      end
     end
   end
 end
