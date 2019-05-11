@@ -7,14 +7,6 @@ module Flipflop
         enabled.nil? ? '' : (enabled ? 'ON' : 'OFF')
       end
 
-      def find_feature_by_name(name)
-        features.find { |f| f.name == name } || raise("Feature :#{name} is not defined.")
-      end
-
-      def find_strategy_by_name(name)
-        strategies.find { |s| s.name == name } || raise("Strategy :#{name} is not available.")
-      end
-
       def table_header
         %w[feature description] + strategies.map(&:name)
       end
@@ -47,6 +39,16 @@ module Flipflop
         strategy = find_strategy_by_name(strategy_name)
 
         strategy.clear!(feature.key)
+      end
+
+      protected
+
+      def find_feature_by_name(name)
+        features.find { |f| f.name == name } || raise("Feature :#{name} is not defined.")
+      end
+
+      def find_strategy_by_name(name)
+        strategies.find { |s| s.name == name } || raise("Strategy :#{name} is not available.")
       end
     end
   end
