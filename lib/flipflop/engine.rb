@@ -34,17 +34,21 @@ module Flipflop
     initializer "flipflop.dashboard", after: "flipflop.features_reloader" do |app|
       next if rake_task_executing
       if actions = config.flipflop.dashboard_access_filter
-        to_prepare do
-          Flipflop::FeaturesController.before_action(*actions)
-          Flipflop::StrategiesController.before_action(*actions)
+        ActiveSupport.on_load :action_controller do
+          to_prepare do
+            Flipflop::FeaturesController.before_action(*actions)
+            Flipflop::StrategiesController.before_action(*actions)
+          end
         end
       end
     end
 
     initializer "flipflop.request_interceptor" do |app|
       interceptor = Strategies::AbstractStrategy::RequestInterceptor
-      ActionController::Base.send(:include, interceptor)
-      ActionController::API.send(:include, interceptor) if defined?(ActionController::API)
+      ActiveSupport.on_load :action_controller do
+        include interceptor
+        include interceptor if defined?(ActionController::API)
+      end
     end
 
     def run_tasks_blocks(app)
