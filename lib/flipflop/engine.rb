@@ -45,9 +45,12 @@ module Flipflop
 
     initializer "flipflop.request_interceptor" do |app|
       interceptor = Strategies::AbstractStrategy::RequestInterceptor
-      ActiveSupport.on_load :action_controller do
-        include interceptor
-        include interceptor if defined?(ActionController::API)
+      ActiveSupport.on_load(:action_controller_base) do
+        ActionController::Base.send(:include, interceptor)
+      end
+
+      ActiveSupport.on_load(:action_controller_api) do
+        ActionController::API.send(:include, interceptor)
       end
     end
 
