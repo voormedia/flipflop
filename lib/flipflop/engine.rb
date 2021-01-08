@@ -34,8 +34,8 @@ module Flipflop
     initializer "flipflop.dashboard", after: "flipflop.features_reloader" do |app|
       next if rake_task_executing
       if actions = config.flipflop.dashboard_access_filter
-        ActiveSupport.on_load :action_controller do
-          to_prepare do
+        to_prepare do
+          ActiveSupport.on_load :action_controller do
             Flipflop::FeaturesController.before_action(*actions)
             Flipflop::StrategiesController.before_action(*actions)
           end
