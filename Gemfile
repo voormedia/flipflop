@@ -11,11 +11,11 @@ group :test do
   end
 
   gem "bootstrap", "= 4.0.0.alpha6", require: false
-  gem 'sassc-rails'
 
   gem "fakeredis", require: false
 
   if version == "master" || version >= "6"
+    gem 'sassc-rails'
     gem "sqlite3", "~> 1.4.0", platform: :ruby
   else
     gem "sqlite3", "~> 1.3.6", platform: :ruby
