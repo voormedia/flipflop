@@ -35,7 +35,7 @@ module Flipflop
       next if rake_task_executing
       if actions = config.flipflop.dashboard_access_filter
         to_prepare do
-          ActiveSupport.on_load :action_controller do
+          ActiveSupport.on_load :application_controller do
             Flipflop::FeaturesController.before_action(*actions)
             Flipflop::StrategiesController.before_action(*actions)
           end
