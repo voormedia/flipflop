@@ -11,6 +11,7 @@ group :test do
   end
 
   gem "bootstrap", "= 4.0.0.alpha6", require: false
+  gem 'sassc-rails'
 
   gem "fakeredis", require: false
 

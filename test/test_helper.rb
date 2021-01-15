@@ -183,7 +183,7 @@ class TestApp
       ActiveRecord::Migrator.migrate(Rails.application.paths["db/migrate"].to_a)
     else
       # Rails 5.2+
-      ActiveRecord::MigrationContext.new(Rails.application.paths["db/migrate"]).migrate
+      ActiveRecord::MigrationContext.new(Rails.application.paths["db/migrate"], ActiveRecord::Base.connection.schema_migration).migrate
     end
   end
 
