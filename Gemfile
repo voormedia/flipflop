@@ -15,10 +15,12 @@ group :test do
   gem "fakeredis", require: false
 
   if version == "master" || version >= "6"
-    gem 'sassc-rails'
     gem "sqlite3", "~> 1.4.0", platform: :ruby
   else
     gem "sqlite3", "~> 1.3.6", platform: :ruby
+  end
+  if version >= "5.2" || Gem::Version.new(RUBY_VERSION) > Gem::Version.new("2.4.4")
+    gem 'sassc-rails'
   end
 
   gem "activerecord-jdbcsqlite3-adapter", platform: :jruby,
