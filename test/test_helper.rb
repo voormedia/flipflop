@@ -181,9 +181,10 @@ class TestApp
 
     if defined?(ActiveRecord::Migrator.migrate)
       ActiveRecord::Migrator.migrate(Rails.application.paths["db/migrate"].to_a)
-    else
-      # Rails 5.2+
+    elsif ActiveRecord::Base.connection.respond_to?(:schema_migration)
       ActiveRecord::MigrationContext.new(Rails.application.paths["db/migrate"], ActiveRecord::Base.connection.schema_migration).migrate
+    else
+      ActiveRecord::MigrationContext.new(Rails.application.paths["db/migrate"]).migrate
     end
   end
 
