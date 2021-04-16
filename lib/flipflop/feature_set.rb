@@ -35,10 +35,10 @@ module Flipflop
       @strategies = {}
     end
 
-    def configure
+    def configure(&block)
       Module.new do
         extend Configurable
-        instance_exec(&Proc.new)
+        instance_exec(&block)
       end
       self
     end
