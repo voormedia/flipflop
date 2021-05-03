@@ -56,7 +56,7 @@ describe Flipflop::Strategies::ActiveRecordStrategy do
     end
 
     it "should be switchable" do
-      assert_equal true, subject.switchable?
+      assert_equal true, subject.switchable?(:test)
     end
 
     it "should have unique key" do

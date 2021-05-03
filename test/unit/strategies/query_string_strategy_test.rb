@@ -28,7 +28,7 @@ describe Flipflop::Strategies::QueryStringStrategy do
     end
 
     it "should not be switchable" do
-      assert_equal false, subject.switchable?
+      assert_equal false, subject.switchable?(:test)
     end
 
     it "should have unique key" do
@@ -84,7 +84,7 @@ describe Flipflop::Strategies::QueryStringStrategy do
     end
 
     it "should not be switchable" do
-      assert_equal false, subject.switchable?
+      assert_equal false, subject.switchable?(:test)
     end
   end
 end

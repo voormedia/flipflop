@@ -50,7 +50,7 @@
                       name: "commit",
                       value: "1",
                       class: @feature_set.strategy_status(strategy, feature) == :enabled ? "active" : nil,
-                      disabled: !strategy.switchable?
+                      disabled: !strategy.switchable?(feature)
                     -%>
 
                     <%= button_tag t(:disabled, scope: [:flipflop, :feature_states]),
@@ -58,12 +58,12 @@
                       name: "commit",
                       value: "0",
                       class: @feature_set.strategy_status(strategy, feature) == :disabled ? "active" : nil,
-                      disabled: !strategy.switchable?
+                      disabled: !strategy.switchable?(feature)
                     -%>
                   </div>
                 <% end -%>
 
-                <% if strategy.switchable? -%>
+                <% if strategy.switchable?(feature) -%>
                   <div class="group">
                     <% unless @feature_set.strategy_status(strategy, feature).blank? -%>
                       <%= form_tag(@feature_set.switch_url(strategy, feature), method: :delete) do -%>

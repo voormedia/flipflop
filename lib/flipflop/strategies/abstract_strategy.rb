@@ -58,7 +58,7 @@ module Flipflop
 
       # Return true iff this strategy is able to switch features on/off.
       # Return false otherwise.
-      def switchable?
+      def switchable?(feature)
         false
       end
 
