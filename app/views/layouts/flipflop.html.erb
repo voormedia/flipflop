@@ -2,7 +2,7 @@
 <html>
   <head>
     <title><%= yield :title -%></title>
-    <style><%= render partial: "flipflop/stylesheets/flipflop.css" %></style>
+    <style><%= render partial: "flipflop/stylesheets/flipflop", format: :css %></style>
   </head>
   <body><%= yield -%></body>
 </html>

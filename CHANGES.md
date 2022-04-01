@@ -1,3 +1,7 @@
+## 2.6.0.1
+
+* Removing .css extension from render partial [Rails 6 Warned deprecation] [Rails 7 deprecated].
+
 ## 2.6.0
 
 * Failure to load strategies in test environments will result in a warning instead of an error. This should aid in running Rake tasks.
