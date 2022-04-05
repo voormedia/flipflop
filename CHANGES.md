@@ -1,6 +1,7 @@
-## 2.6.0.1
+## 2.7.0
 
-* Removing .css extension from render partial [Rails 6 Warned deprecation] [Rails 7 deprecated].
+* Removing .css extension from render partial and adding it to html handler to correctly render the erb file.
+  * Fixes Rails 6 & 7 deprecation: `Render file with extension is deprecated`
 
 ## 2.6.0
 
