@@ -112,7 +112,7 @@ describe Flipflop::Strategies::CookieStrategy do
         subject.switch!(:one, true)
         subject.clear!(:one)
         subject.send(:request).cookie_jar.write(headers = {})
-        assert_equal "my_cookie_one=; domain=.example.com; path=/foo; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 -0000; HttpOnly",
+        assert_equal "my_cookie_one=; domain=.example.com; path=/foo; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly",
           headers["Set-Cookie"]
       end
     end

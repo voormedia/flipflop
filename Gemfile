@@ -19,6 +19,9 @@ group :test do
   else
     gem "sqlite3", "~> 1.3.6", platform: :ruby
   end
+  if version >= "5.2" || Gem::Version.new(RUBY_VERSION) > Gem::Version.new("2.4.4")
+    gem 'sassc-rails'
+  end
 
   gem "activerecord-jdbcsqlite3-adapter", platform: :jruby,
     github: "jruby/activerecord-jdbc-adapter"

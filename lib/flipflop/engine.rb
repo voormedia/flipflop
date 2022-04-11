@@ -14,6 +14,12 @@ module Flipflop
 
     config.flipflop = ActiveSupport::OrderedOptions.new
 
+    initializer "flipflop.config" do |app|
+      raise_errors = config.flipflop.raise_strategy_errors
+      raise_errors = (ENV["RACK_ENV"] || ENV["RAILS_ENV"]) != "test" if raise_errors.nil?
+      FeatureSet.current.raise_strategy_errors = raise_errors
+    end
+
     initializer "flipflop.features_path" do |app|
       FeatureLoader.current.append(app)
     end
@@ -37,8 +43,13 @@ module Flipflop
 
     initializer "flipflop.request_interceptor" do |app|
       interceptor = Strategies::AbstractStrategy::RequestInterceptor
-      ActionController::Base.send(:include, interceptor)
-      ActionController::API.send(:include, interceptor) if defined?(ActionController::API)
+      ActiveSupport.on_load(:action_controller_base) do
+        ActionController::Base.send(:include, interceptor)
+      end
+
+      ActiveSupport.on_load(:action_controller_api) do
+        ActionController::API.send(:include, interceptor)
+      end
     end
 
     def run_tasks_blocks(app)
