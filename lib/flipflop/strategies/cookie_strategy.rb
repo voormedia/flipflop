@@ -32,7 +32,8 @@ module Flipflop
       end
 
       def clear!(feature)
-        request.cookie_jar.delete(cookie_key(feature), **@options)
+        options = @options.dup
+        request.cookie_jar.delete(cookie_key(feature), **options)
       end
 
       protected

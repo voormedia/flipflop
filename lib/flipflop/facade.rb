@@ -11,6 +11,8 @@ module Flipflop
     end
 
     def respond_to_missing?(method, include_private = false)
+      return false if method == :use_relative_model_naming?
+
       method[-1] == "?"
     end
 

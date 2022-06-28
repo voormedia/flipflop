@@ -1,48 +1,6 @@
 language: ruby
 cache: bundler
-rvm:
-- 2.5.0
-- 2.4.4
-- 2.3.5
-- jruby-9.1.13.0
-- ruby-head
-- jruby-head
-env:
-- RAILS_VERSION=master
-- RAILS_VERSION=master RAILS_API_ONLY=1
-- RAILS_VERSION=5.2
-- RAILS_VERSION=5.2 RAILS_API_ONLY=1
-- RAILS_VERSION=5.1
-- RAILS_VERSION=5.1 RAILS_API_ONLY=1
-- RAILS_VERSION=5.0
-- RAILS_VERSION=5.0 RAILS_API_ONLY=1
-matrix:
-  include:
-  - rvm: 2.2.8
-    env: RAILS_VERSION=4.2
-  - rvm: 2.1.10
-    env: RAILS_VERSION=4.2
-  - rvm: 2.0.0
-    env: RAILS_VERSION=4.2
-  - rvm: 2.2.8
-    env: RAILS_VERSION=4.1
-  - rvm: 2.1.10
-    env: RAILS_VERSION=4.1
-  - rvm: 2.0.0
-    env: RAILS_VERSION=4.1
-  exclude:
-  - rvm: 2.4.4
-    env: RAILS_VERSION=master
-  - rvm: 2.4.4
-    env: RAILS_VERSION=master RAILS_API_ONLY=1
-  - rvm: 2.3.5
-    env: RAILS_VERSION=master
-  - rvm: 2.3.5
-    env: RAILS_VERSION=master RAILS_API_ONLY=1
-  allow_failures:
-  - rvm: jruby-9.1.13.0
-  - rvm: ruby-head
-  - rvm: jruby-head
+ruby: 2.5.0
 before_deploy: bundle exec rake assets:compile
 deploy:
   provider: rubygems

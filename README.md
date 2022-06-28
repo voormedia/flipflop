@@ -1,4 +1,4 @@
-[<img src="https://travis-ci.org/voormedia/flipflop.svg?branch=master" alt="Build Status">](https://travis-ci.org/voormedia/flipflop)
+![GitHub Actions](https://github.com/voormedia/flipflop/actions/workflows/test.yml/badge.svg)
 
 # Flipflop your features
 

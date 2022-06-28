@@ -51,7 +51,7 @@ describe Flipflop::Rake::SupportMethods do
     describe 'when the strategy is not switchable' do
       it 'raises an error' do
         with_feature_and_strategy 'Lambda' do |strategy, feature|
-          -> { subject.switch_feature!('world_domination', 'lambda', true) }.must_raise
+          _{ subject.switch_feature!('world_domination', 'lambda', true) }.must_raise
         end
       end
     end
