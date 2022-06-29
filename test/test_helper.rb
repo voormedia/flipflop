@@ -107,12 +107,12 @@ class TestApp
     require "rails/generators/rails/app/app_generator"
     require "generators/flipflop/install/install_generator"
 
-    FileUtils.rm_rf(File.expand_path("../../" + path, __FILE__))
-    Dir.chdir(File.expand_path("../..", __FILE__))
+    FileUtils.rm_rf(app_path)
+    Dir.chdir(project_root.to_s)
 
-    Rails::Generators::AppGenerator.new([path],
+    Rails::Generators::AppGenerator.new([app_path.to_s],
       quiet: true,
-      api: ENV["RAILS_API_ONLY"].to_i.nonzero?,
+      api: rails_api_only?,
       skip_active_job: true,
       skip_active_storage: true,
       skip_action_cable: true,
@@ -128,9 +128,15 @@ class TestApp
       skip_turbolinks: true,
     ).invoke_all
 
+    if rails_api_only?
+      manifest_path = app_path.join("app/assets/config/manifest.js")
+      manifest_path.dirname.mkpath
+      manifest_path.write(project_root.join("app/assets/config/manifest.js").read)
+    end
+
     # Remove bootsnap if present, this interferes with reloading apps.
-    boot_path = File.expand_path("../../" + path + "/config/boot.rb", __FILE__)
-    File.write(boot_path, File.read(boot_path).gsub("require 'bootsnap/setup'", ""))
+    boot_path = app_path.join("config/boot.rb")
+    boot_path.write(boot_path.read.gsub("require 'bootsnap/setup'", ""))
 
     Flipflop::InstallGenerator.new([],
       quiet: true,
@@ -147,8 +153,8 @@ class TestApp
     require "flipflop/engine"
 
     ActiveSupport::Dependencies.autoloaded_constants.clear
-    load File.expand_path("../../#{path}/config/application.rb", __FILE__)
-    load File.expand_path("../../#{path}/config/environments/test.rb", __FILE__)
+    load app_path.join("config/application.rb").to_s
+    load app_path.join("config/environments/test.rb").to_s
     Rails.application.config.cache_classes = false
     Rails.application.config.action_view.raise_on_missing_translations = true
     Rails.application.config.i18n.enforce_available_locales = false
@@ -193,7 +199,7 @@ class TestApp
     Flipflop::Strategies::AbstractStrategy::RequestInterceptor.request = nil
     Flipflop::FeatureLoader.instance_variable_set(:@current, nil)
 
-    match = -> (path) { path.include?(File.expand_path("../..", __FILE__)) }
+    match = -> (path) { path.include?(project_root.to_s) }
     Rails.application.config.i18n.railties_load_path.reject!(&match)
     Rails.application.config.i18n.load_path.reject!(&match)
     I18n.load_path.reject!(&match)
@@ -208,7 +214,19 @@ class TestApp
 
   private
 
-  def path
-    "tmp/" + name
+  def rails_api_only?
+    ENV["RAILS_API_ONLY"].to_i.nonzero?
+  end
+
+  def project_root
+    Pathname.new(__dir__).parent
+  end
+
+  def tmp_path
+    project_root.join('tmp')
+  end
+
+  def app_path
+    tmp_path.join(name)
   end
 end
