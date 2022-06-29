@@ -44,7 +44,7 @@ rake flipflop:clear[feature,strategy]     # Clears a feature with the specified 
 
 ## Rails requirements
 
-This gem requires Rails 4, 5 or 6. Using an ORM layer is entirely optional.
+This gem requires Rails 4, 5, 6 or 7. Using an ORM layer is entirely optional.
 
 ## Installation
 
