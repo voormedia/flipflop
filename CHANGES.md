@@ -1,3 +1,9 @@
+## 2.7.0
+
+* Removing .css extension from render partial and adding it to html handler to correctly render the erb file.
+  * Fixes Rails 6 & 7 deprecation: `Render file with extension is deprecated`
+  * Ruby 3.x compatible (Credits: https://github.com/voormedia/flipflop/pull/36)
+
 ## 2.6.0
 
 * Failure to load strategies in test environments will result in a warning instead of an error. This should aid in running Rake tasks.
