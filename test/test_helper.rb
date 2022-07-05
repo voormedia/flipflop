@@ -5,6 +5,7 @@ gem "minitest"
 require "minitest/autorun"
 
 require "action_controller"
+require "action_controller/test_case"
 require "rails/generators"
 
 # Who is setting this to true? :o
@@ -14,6 +15,7 @@ def create_request
   env = Rack::MockRequest.env_for("/example")
   request = ActionDispatch::TestRequest.new(env)
   request.host = "example.com"
+  request.session = ActionController::TestSession.new
 
   class << request
     def cookie_jar
@@ -46,7 +48,7 @@ def capture_stderr
 end
 
 def reload_constant(name)
-  ActiveSupport::Dependencies.remove_constant(name.to_s)
+  Object.send(:remove_const, name.to_s)
   path = ActiveSupport::Dependencies.search_for_file(name.to_s.underscore).sub!(/\.rb\z/, "")
   ActiveSupport::Dependencies.loaded.delete(path)
   Object.const_get(name)
@@ -112,10 +114,11 @@ class TestApp
 
     Rails::Generators::AppGenerator.new([path],
       quiet: true,
-      api: ENV["RAILS_API_ONLY"].to_i.nonzero?,
+      api: rails_api_only?,
       skip_active_job: true,
       skip_active_storage: true,
       skip_action_cable: true,
+      skip_action_mailer: true,
       skip_bootsnap: true,
       skip_bundle: true,
       skip_puma: true,
@@ -127,6 +130,13 @@ class TestApp
       skip_test_unit: true,
       skip_turbolinks: true,
     ).invoke_all
+
+    if rails_api_only?
+      project_root = Pathname.new(__dir__.to_s).parent
+      manifest_path = project_root.join(path).join("app/assets/config/manifest.js")
+      manifest_path.dirname.mkpath
+      manifest_path.write(project_root.join("app/assets/config/manifest.js").read)
+    end
 
     # Remove bootsnap if present, this interferes with reloading apps.
     boot_path = File.expand_path("../../" + path + "/config/boot.rb", __FILE__)
@@ -146,11 +156,17 @@ class TestApp
     require "rails"
     require "flipflop/engine"
 
-    ActiveSupport::Dependencies.autoloaded_constants.clear
+    ActiveSupport::Dependencies.autoload_paths = []
+    ActiveSupport::Dependencies.autoload_once_paths = []
     load File.expand_path("../../#{path}/config/application.rb", __FILE__)
+    Zeitwerk::Registry.loaders.each(&:unregister) if defined?(Zeitwerk)
     load File.expand_path("../../#{path}/config/environments/test.rb", __FILE__)
     Rails.application.config.cache_classes = false
-    Rails.application.config.action_view.raise_on_missing_translations = true
+    if Gem::Version.new(Rails.version) < Gem::Version.new('7')
+      Rails.application.config.action_view.raise_on_missing_translations = true
+    else
+      Rails.application.config.i18n.raise_on_missing_translations = true
+    end
     Rails.application.config.i18n.enforce_available_locales = false
     Rails.application.config.autoloader = :classic # Disable Zeitwerk in Rails 6+
 
@@ -166,7 +182,9 @@ class TestApp
       Rails.application.config.action_view.finalize_compiled_template_methods = ActionView::Railtie::NULL_OPTION
     end
 
+    Rails.application.config.active_support.remove_deprecated_time_with_zone_name = false
     Rails.application.initialize!
+    Zeitwerk::Registry.loaders.each(&:unregister) if defined?(Zeitwerk)
 
     I18n.locale = :en
 
@@ -202,11 +220,15 @@ class TestApp
     Rails.instance_variable_set(:@application, nil)
     I18n::Railtie.instance_variable_set(:@i18n_inited, false)
 
-    ActiveSupport::Dependencies.remove_constant(name.camelize)
-    ActiveSupport::Dependencies.remove_constant("Flipflop::Feature")
+    Object.send(:remove_const, name.camelize)
+    Flipflop.send(:remove_const, "Feature")
   end
 
   private
+
+  def rails_api_only?
+    ENV["RAILS_API_ONLY"].to_i.nonzero?
+  end
 
   def path
     "tmp/" + name

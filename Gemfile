@@ -23,8 +23,10 @@ group :test do
     gem 'sassc-rails'
   end
 
-  gem "activerecord-jdbcsqlite3-adapter", platform: :jruby,
-    github: "jruby/activerecord-jdbc-adapter"
+  if RUBY_PLATFORM == 'java'
+    gem "activerecord-jdbcsqlite3-adapter", platform: :jruby,
+      github: "jruby/activerecord-jdbc-adapter", tag: ENV['JRUBY_AR_JDBC_ADAPTER_VERSION']
+  end
 
   gem "minitest", ">= 4.2"
   gem "capybara", ">= 2.6"

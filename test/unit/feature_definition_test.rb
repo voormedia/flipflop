@@ -32,7 +32,7 @@ describe Flipflop::FeatureDefinition do
 
     it "should have location" do
       # Because we have no indirection via FeatureSet, the location is minitest.
-      assert_equal "instance_eval", subject.location.label
+      assert ["block in let", "instance_eval"].include?(subject.location.label)
     end
   end
 
@@ -71,7 +71,8 @@ describe Flipflop::FeatureDefinition do
 
     it "should have location" do
       # Because we have no indirection via FeatureSet, the location is minitest.
-      assert_equal "instance_eval", subject.location.label
+      expected = RUBY_PLATFORM == "java" ? "block in let" : "instance_eval"
+      assert_equal expected, subject.location.label
     end
   end
 

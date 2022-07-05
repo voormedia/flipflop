@@ -15,10 +15,10 @@ module Flipflop
       FeatureSet.current.add(feature)
     end
 
-    def strategy(strategy = nil, **options)
+    def strategy(strategy = nil, **options, &block)
       if block_given?
         options[:name] = strategy.to_s
-        options[:lambda] = Proc.new
+        options[:lambda] = block
         strategy = Strategies::LambdaStrategy
       end
 
