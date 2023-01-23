@@ -1,3 +1,7 @@
+## 2.7.1
+
+* Admin page redirection enhancements after updating a feature switch. Now after flipping a switch it will take you back to the section that you were navigating previously. This is very helpful when having several feature switches.
+
 ## 2.7.0
 
 * Removing .css extension from render partial and adding it to html handler to correctly render the erb file.
