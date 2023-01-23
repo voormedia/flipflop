@@ -41,7 +41,7 @@
           </td>
 
           <% @feature_set.strategies.each do |strategy| -%>
-            <td class="toggle" data-strategy="<%= strategy.name.dasherize.parameterize %>">
+            <td class="toggle" data-strategy="<%= strategy.name.dasherize.parameterize %>" id="<%= "#{feature.key}-#{strategy.key}".parameterize %>">
               <div class="toolbar">
                 <%= form_tag(@feature_set.switch_url(strategy, feature), method: :put) do -%>
                   <div class="group">

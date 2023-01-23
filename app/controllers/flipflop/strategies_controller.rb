@@ -4,12 +4,12 @@ module Flipflop
 
     def update
       FeatureSet.current.switch!(feature_key, strategy_key, enable?)
-      redirect_to(features_url)
+      redirect_to features_url(anchor: "#{feature_key}-#{strategy_key}".parameterize)
     end
 
     def destroy
       FeatureSet.current.clear!(feature_key, strategy_key)
-      redirect_to(features_url)
+      redirect_to features_url(anchor: "#{feature_key}-#{strategy_key}".parameterize)
     end
 
     private
