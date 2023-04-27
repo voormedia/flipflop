@@ -2,7 +2,7 @@
 <html>
   <head>
     <title><%= yield :title -%></title>
-    <style><%= render partial: "flipflop/stylesheets/flipflop" %></style>
+    <style><%= render(file: File.expand_path("../flipflop/stylesheets/_flipflop.css", __dir__)) %></style>
   </head>
   <body><%= yield -%></body>
 </html>

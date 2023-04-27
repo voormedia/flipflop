@@ -1,5 +1,7 @@
 *.gem
 .bundle
+app/views/flipflop/stylesheets/_flipflop.css
 Gemfile.lock
-pkg/*
-tmp/*
+
+pkg/
+tmp/
