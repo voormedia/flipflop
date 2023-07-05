@@ -104,7 +104,11 @@ section.flipflop {
             }
           }
 
-          span.enabled { @extend .badge-success; }
+          span.enabled {
+            @extend .badge-success;
+          
+            background-color: #238637;
+          }
           span.disabled { @extend .badge-default; }
         }
 
