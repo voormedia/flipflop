@@ -41,6 +41,7 @@ describe Flipflop do
     describe "module" do
       before do
         Flipflop::FeatureSet.current.instance_variable_set(:@features, {})
+        Flipflop::FeatureSet.current.instance_variable_set(:@facade, Class.new.new)
         Module.new do
           extend Flipflop::Configurable
           feature :world_domination

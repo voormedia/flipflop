@@ -30,9 +30,12 @@ module Flipflop
 
     attr_accessor :raise_strategy_errors
 
+    attr_reader :facade
+
     def initialize
       @features = {}
       @strategies = {}
+      @facade = Class.new.new
     end
 
     def configure(&block)
@@ -49,6 +52,7 @@ module Flipflop
         yield if block_given?
         @features.freeze
         @strategies.freeze
+        @facade.class.freeze
       end
       self
     end
@@ -66,6 +70,12 @@ module Flipflop
           raise FeatureError.new(feature.key, "already defined")
         end
         @features[feature.key] = feature.freeze
+
+        @facade.class.class_eval <<-RUBY, __FILE__, __LINE__ + 1
+          def #{feature.key}?
+            FeatureSet.current.enabled?(:#{feature.key})
+          end
+        RUBY
       end
     end
 

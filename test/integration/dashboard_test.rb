@@ -40,6 +40,7 @@ describe Flipflop do
     describe "with features" do
       before do
         Flipflop::FeatureSet.current.instance_variable_set(:@features, {})
+        Flipflop::FeatureSet.current.instance_variable_set(:@facade, Class.new.new)
         Module.new do
           extend Flipflop::Configurable
           feature :world_domination, description: "Try and take over the world!"
@@ -74,6 +75,7 @@ describe Flipflop do
     describe "with grouped features" do
       before do
         Flipflop::FeatureSet.current.instance_variable_set(:@features, {})
+        Flipflop::FeatureSet.current.instance_variable_set(:@facade, Class.new.new)
         Module.new do
           extend Flipflop::Configurable
           group "world" do
@@ -110,6 +112,7 @@ describe Flipflop do
     describe "with cookie strategy" do
       before do
         Flipflop::FeatureSet.current.instance_variable_set(:@features, {})
+        Flipflop::FeatureSet.current.instance_variable_set(:@facade, Class.new.new)
         Module.new do
           extend Flipflop::Configurable
           feature :world_domination, description: "Try and take over the world!"
@@ -181,6 +184,7 @@ describe Flipflop do
     describe "with active record strategy" do
       before do
         Flipflop::FeatureSet.current.instance_variable_set(:@features, {})
+        Flipflop::FeatureSet.current.instance_variable_set(:@facade, Class.new.new)
         Module.new do
           extend Flipflop::Configurable
           feature :world_domination, description: "Try and take over the world!"
@@ -305,6 +309,7 @@ describe Flipflop do
     describe "with features" do
       before do
         Flipflop::FeatureSet.current.instance_variable_set(:@features, {})
+        Flipflop::FeatureSet.current.instance_variable_set(:@facade, Class.new.new)
         Module.new do
           extend Flipflop::Configurable
           feature :world_domination, description: "Try and take over the world!"
@@ -339,6 +344,7 @@ describe Flipflop do
     describe "with grouped features" do
       before do
         Flipflop::FeatureSet.current.instance_variable_set(:@features, {})
+        Flipflop::FeatureSet.current.instance_variable_set(:@facade, Class.new.new)
         Module.new do
           extend Flipflop::Configurable
           group "world" do
@@ -375,6 +381,7 @@ describe Flipflop do
     describe "with cookie strategy" do
       before do
         Flipflop::FeatureSet.current.instance_variable_set(:@features, {})
+        Flipflop::FeatureSet.current.instance_variable_set(:@facade, Class.new.new)
         Module.new do
           extend Flipflop::Configurable
           feature :world_domination, description: "Try and take over the world!"
@@ -446,6 +453,7 @@ describe Flipflop do
     describe "with active record strategy" do
       before do
         Flipflop::FeatureSet.current.instance_variable_set(:@features, {})
+        Flipflop::FeatureSet.current.instance_variable_set(:@facade, Class.new.new)
         Module.new do
           extend Flipflop::Configurable
           feature :world_domination, description: "Try and take over the world!"

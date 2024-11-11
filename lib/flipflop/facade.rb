@@ -11,15 +11,11 @@ module Flipflop
     end
 
     def respond_to_missing?(method, include_private = false)
-      method[-1] == "?"
+      FeatureSet.current.facade.respond_to?(method, include_private) || super
     end
 
     def method_missing(method, *args)
-      if method[-1] == "?"
-        FeatureSet.current.enabled?(method[0..-2].to_sym)
-      else
-        super
-      end
+      FeatureSet.current.facade.send(method, *args)
     end
   end
 end
