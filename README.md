@@ -11,6 +11,7 @@ application functionality at run-time. It is originally based on
 * manage features via console (using rake tasks)
 * thread safety
 * better database performance due to per-request caching, enabled by default
+* optional eager loading (if you expect to use many features per request)
 * more strategies (Sequel, Redis, query strings, sessions, custom code)
 * more strategy options (cookie options, strategy names and descriptions, custom database models)
 * the ability to use the same strategy twice, with different options
@@ -104,6 +105,7 @@ Feature definitions support these options:
 The following strategies are provided:
 * `:active_record`/`:sequel` – Save feature settings in the database.
     * `:class` – Provide the feature model. `Flipflop::Feature` by default (which is defined automatically and uses the table `flipflop_features`). The `ActiveRecord` version honors `default_scope` when features are resolved or switched on/off.
+    * `:eager` – Whether to eagerly fetch all features from the database when the first feature is resolved. Useful if you expect you'll need more than 1 feature on average and you have a limited number of features. NOTE: When using outside Rails, make sure you use `Flipflop::FeatureCache::Middleware` or enable the feature cache manually. Default is `false`.
 * `:cookie` – Save feature settings in browser cookies for the current user.
     * `:prefix` – String prefix for all cookie names. Defaults to no prefix.
     * `:path` – The path for which the cookies apply. Defaults to the root of the application.

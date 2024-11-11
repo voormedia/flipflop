@@ -16,6 +16,7 @@ module Flipflop
 
       def initialize(**options)
         @class = options.delete(:class) || self.class.define_feature_class
+        @eager = options.delete(:eager) || false
         if !@class.kind_of?(Class)
           @class = ActiveSupport::Inflector.constantize(@class.to_s)
         end
@@ -27,23 +28,32 @@ module Flipflop
       end
 
       def enabled?(feature)
-        find(feature).first.try(:enabled?)
+        cache = FeatureCache.current if @eager
+        if cache
+          cache.fetch(key) { all_features }[feature]
+        else
+          scoped(feature).first.try(:enabled?)
+        end
       end
 
       def switch!(feature, enabled)
-        record = find(feature).first_or_initialize
+        record = scoped(feature).first_or_initialize
         record.enabled = enabled
         record.save!
       end
 
       def clear!(feature)
-        find(feature).first.try(:destroy)
+        scoped(feature).first.try(:destroy)
       end
 
       protected
 
-      def find(feature)
+      def scoped(feature)
         @class.where(key: feature.to_s)
+      end
+
+      def all_features
+        @class.all.to_h { |feature| [feature.key.to_sym, feature.enabled?] }
       end
     end
   end
