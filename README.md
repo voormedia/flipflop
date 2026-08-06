@@ -201,7 +201,7 @@ class UserPreferenceStrategy < Flipflop::Strategies::AbstractStrategy
     end
   end
 
-  def switchable?
+  def switchable?(feature)
     # Can only switch features on/off if we have the user's session.
     # The `request` method is provided by AbstractStrategy.
     request?

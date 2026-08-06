@@ -23,7 +23,7 @@ describe Flipflop::Strategies::AbstractStrategy do
     end
 
     it "should not be switchable" do
-      assert_equal false, subject.switchable?
+      assert_equal false, subject.switchable?(:test)
     end
 
     it "should not be hidden" do
